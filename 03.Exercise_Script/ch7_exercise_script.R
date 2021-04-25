@@ -7,13 +7,13 @@ c_iris <- iris
 # caret 패키지에서 preProcess() 함수로 스케일링을 제공하기 때문에 불러옴
 library(caret)
 
-# preProcess() 함수에서 method를 range로 지정하면 Normalizing 가능
+# preProcess() 함수에서 method를 range로 지정하면 Normalization 가능
 nor <- preProcess(c_iris[,-5], method="range")
 
-# predict() 함수를 이용해 c_iris 데이터 Normalizing 실시
+# predict() 함수를 이용해 c_iris 데이터 Normalization 실시
 n.c_iris <- predict(nor, c_iris)
 
-summary(n.c_iris)  # Normalizing 결과 확인
+summary(n.c_iris)  # Normalization 결과 확인
 
 # 종속변수를 각각 0, 1, 2 숫자로 변환(첫 시작을 0으로 두기 위해 1을 뺐음)
 n.c_iris$Species <- as.numeric(n.c_iris$Species) -1

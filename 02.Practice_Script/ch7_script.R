@@ -45,25 +45,25 @@ RMSE(test$pred, test$weight)
 MAE(test$pred, test$weight)
 
 
-# Data Normalizing
+# Data Normalization
 # caret 패키지에서 preProcess() 함수로 스케일링을 제공하기 때문에 불러옴
 library(caret)
 
-# preProcess() 함수에서 method를 range로 지정하면 Normalizing 가능
+# preProcess() 함수에서 method를 range로 지정하면 Normalization 가능
 nor <- preProcess(w[,1:2], method="range")
 
-# predict() 함수를 이용해 r_train 데이터의 독립변수를 Normalizing 실시
+# predict() 함수를 이용해 r_train 데이터의 독립변수를 Normalization 실시
 r_x_train <- predict(nor, r_train[,1:2])
 summary(r_x_train)
-# predict() 함수를 이용해 r_test 데이터의 독립변수를 Normalizing 실시
+# predict() 함수를 이용해 r_test 데이터의 독립변수를 Normalization 실시
 r_x_test <- predict(nor, r_test[,1:2])
 summary(r_x_test)
 
-# Normalizing 시킨 r_x_train 데이터 셋과 기존 종속변수를 열병합 실시
+# Normalization 시킨 r_x_train 데이터 셋과 기존 종속변수를 열병합 실시
 r_n_train <- cbind(r_x_train, r_train[,3])
 names(r_n_train)[3] <- "weight"  # 합쳐진 데이터 셋의 3번째 열 이름을 weight로 변경
 
-# Normalizing 시킨 r_x_test 데이터 셋과 기존 종속변수를 열병합 실시
+# Normalization 시킨 r_x_test 데이터 셋과 기존 종속변수를 열병합 실시
 r_n_test <- cbind(r_x_test, r_test[,3])
 names(r_n_test)[3] <- "weight"  # 합쳐진 데이터 셋의 3번째 열 이름을 weight로 변경
 
@@ -152,16 +152,16 @@ str(c_x_train)
 # caret 패키지에서 preProcess() 함수로 스케일링을 제공하기 때문에 불러옴
 library(caret)
 
-# preProcess() 함수에서 method를 range로 지정하면 Normalizing 가능
+# preProcess() 함수에서 method를 range로 지정하면 Normalization 가능
 nor <- preProcess(c_x_train[,1:3], method="range")
 
-# predict() 함수를 이용해 c_x_train 데이터를 Normalizing 실시
+# predict() 함수를 이용해 c_x_train 데이터를 Normalization 실시
 n_c_x_train <- predict(nor, c_x_train)
-summary(n_c_x_train)  # Normalizing 결과 확인
+summary(n_c_x_train)  # Normalization 결과 확인
 
-# predict() 함수를 이용해 c_x_test 데이터를 Normalizing 실시
+# predict() 함수를 이용해 c_x_test 데이터를 Normalization 실시
 n_c_x_test <- predict(nor, c_x_test)
-summary(n_c_x_test)  # Normalizing 결과 확인
+summary(n_c_x_test)  # Normalization 결과 확인
 
 # Matrix 형태로 변환
 n_c_x_train <- as.matrix(n_c_x_train)
