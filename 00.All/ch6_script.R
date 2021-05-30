@@ -26,7 +26,7 @@ g$pred <- g_glm$fitted.values
 head(g)
 
 # pred가 0.5보다 크면 m, 아니면 f로 판정하고 그 결과를 gender_pred라는 열에 넣음
-g$gender_pred <- ifelse(g1$pred > 0.5, 'm', 'f')
+g$gender_pred <- ifelse(g$pred > 0.5, 'm', 'f')
 head(g)
 
 str(g)
@@ -36,6 +36,8 @@ table(g$gender_pred, g$gender)
 
 install.packages("caret")  # 정오분류표를 그리기 위한 패키지 설치
 library(caret)
+install.packages("e1071")  # 정오분류표를 그리기 위한 패키지 설치
+library(e1071)
 
 # caret 패키지 활용을 위해 g$gender_pred 열 데이터 유형 변경
 g$gender_pred <- as.factor(g$gender_pred)
@@ -79,8 +81,8 @@ confusionMatrix(c_test$pred, c_test$breeds)
 
 # k-NN
 
-install.packages("DMwR")  # k-NN 수행을 위한 패키지 설치
-library(DMwR)
+install.packages("DMwR2")  # k-NN 수행을 위한 패키지 설치
+library(DMwR2)
 
 c_train <- read.csv("ch6-2_train.csv", header = TRUE)
 c_test <- read.csv("ch6-2_test.csv", header = TRUE)
@@ -93,7 +95,7 @@ head(c_test)  # 데이터 확인
 library(caret)
 confusionMatrix(c_test$pred3, c_test$breeds)
 
-c_knn5 <- kNN(breeds ~., c_train, c_test[,1:4], norm=FALSE, k = 5)
+c_knn5 <- kNN(breeds ~., c_train, c_test[,1:4], k = 5)
 c_test$pred5 <- c_knn5
 confusionMatrix(c_test$pred5, c_test$breeds)
 

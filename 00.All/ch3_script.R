@@ -72,9 +72,9 @@ air_d
 
 air_m <- air
 
-# 결측치 중앙값 대체를 위한 DMwR 패키지 설치 및 라이브러리 불러오기
-install.packages("DMwR")
-library(DMwR)
+# 결측치 중앙값 대체를 위한 DMwR2 패키지 설치 및 라이브러리 불러오기
+install.packages("DMwR2")
+library(DMwR2)
 
 median(air_m$PM10, na.rm = TRUE) # 결측치를 제외한 PM10의 중앙값 계산
 median(air_m$PM25, na.rm = TRUE) # 결측치를 제외한 PM25의 중앙값 계산
