@@ -4,6 +4,10 @@
 install.packages("RPostgres")
 library(RPostgres)
 
+install.packages("RPostgreSQL")
+library(RPostgreSQL)
+
+
 # R에서 SQL을 사용할 수 있게 해주는 패키지
 install.packages("sqldf")
 library(sqldf)
@@ -89,12 +93,6 @@ subset(m, Month == 5 & Day == 1)
 
 # 변경했던 데이터 셋을 복원
 x <- dcast(m, Month + Day ~ variable)
-
-head(x)
-
-
-# m 데이터셋과 dcast로 원래 데이터 형태로 변환, 삭제된 NA도 자동으로 NA로 대체됨, 대박!
-x <- dcast(m, time + treatment + subject + rep ~ variable)
 
 head(x)
 

@@ -15,7 +15,7 @@ g_glm <- glm(gender ~ wing_length + tail_length,
 
 summary(g_glm)
 
-# g_glm 변수에 포함된 객체 확인
+# g_glm 변수에 포함된 객체(Object) 확인
 names(g_glm)
 
 # 기존 독립변수 데이터를 이용해 모델로 계산해 본 결과
@@ -28,8 +28,6 @@ head(g)
 # pred가 0.5보다 크면 m, 아니면 f로 판정하고 그 결과를 gender_pred라는 열에 넣음
 g$gender_pred <- ifelse(g$pred > 0.5, 'm', 'f')
 head(g)
-
-str(g)
 
 # 간단한 정오분류표 그려보기
 table(g$gender_pred, g$gender)
@@ -54,7 +52,7 @@ ROC(g$pred, g$gender, main = "ROC Curve")
 ## Chapter 6-2. 병아리 품종을 구분할 수 있을까? (분류 알고리즘)
 
 # Naive Bayes
-
+# 위에서 설치했지만 혹시나 몰라 넣었음
 install.packages("e1071")  # Naive Bayes 수행을 위한 패키지 설치
 library(e1071)
 
@@ -73,7 +71,7 @@ names(c_nb)
 # 나이브 베이즈 모델에 테스트용 데이터셋을 이용해 품종 분류 실시
 c_test$pred <- predict(c_nb, newdata = c_test, type = "class")
 
-str(c_test)
+head(c_test)
 
 library(caret)
 confusionMatrix(c_test$pred, c_test$breeds)
@@ -95,6 +93,7 @@ head(c_test)  # 데이터 확인
 library(caret)
 confusionMatrix(c_test$pred3, c_test$breeds)
 
+# c_test 데이터 셋에 pred3열을 만들었기 때문에 1~4열까지만 선택해서 테스트 실시
 c_knn5 <- kNN(breeds ~., c_train, c_test[,1:4], k = 5)
 c_test$pred5 <- c_knn5
 confusionMatrix(c_test$pred5, c_test$breeds)
@@ -108,7 +107,6 @@ library(rpart)
 c_train <- read.csv("ch6-2_train.csv", header = TRUE)
 c_test <- read.csv("ch6-2_test.csv", header = TRUE)
 
-?rpart
 
 # 병아리 품종을 종속변수로 나머지 변수를 독립변수로한 학습 실시
 c_rpart <- rpart(breeds ~., data = c_train)
@@ -147,7 +145,8 @@ c_bag$importance  # 모델 객체 중 importance 확인
 c_bag$trees
 
 # c_bag 모델의 trees 객체의 100번째 트리 그래프로 그리고, 텍스트 추가하기
-plot(c_bag$trees[[100]], main = "Bagging")
+# margin의 경우 그래프에서 텍스트가 잘리는 문제가 발생해 부여함
+plot(c_bag$trees[[100]], main = "Bagging", margin=0.1)
 text(c_bag$trees[[100]])
 
 # 배깅 모델에 테스트용 데이터 셋을 이용해 품종 분류 실시
@@ -172,7 +171,8 @@ c_test <- read.csv("ch6-2_test.csv", header = TRUE)
 c_boost <- boosting(breeds ~., data = c_train, type = "class")
 c_boost$importance
 
-plot(c_boost$trees[[100]], main = "Boosting-Adaboost")
+# 그래프 글자 잘림 방지를 위해 margin 지정
+plot(c_boost$trees[[100]], main = "Boosting-Adaboost", margin = 0.1)
 text(c_boost$trees[[100]])
 
 pred <- predict(c_boost, newdata = c_test, type = "class")
@@ -220,10 +220,7 @@ c_test$pred <- predict(c_svm, newdata = c_test, type = "class")
 library(caret)  # confusionMatrix() 함수 실행을 위한 라이브러리 불러오기
 confusionMatrix(c_test$pred, c_test$breeds)
 
-?svm
 
-
-?xgboost
 # XGBoost, 데이터 타입을 바꿔야하고 학습이 있어야함
 
 install.packages("xgboost")
@@ -237,6 +234,7 @@ c_y_train <- c_train[,4]  # 훈련용 라벨 만들기, vector 타입
 c_x_test <- data.matrix(c_test[,1:3])  # 테스트용 데이터 셋 matrix 타입으로 만들기
 c_y_test <- c_test[,4]  # 테스트용 라벨 만들기, vector 타입
 
+?xgboost
 c_xgb <- xgboost(data = c_x_train, label = as.numeric(c_y_train)-1,
                  num_class = 3, nrounds = 20, eta = 0.1,
                  objective = "multi:softprob")

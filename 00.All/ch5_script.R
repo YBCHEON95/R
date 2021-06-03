@@ -24,7 +24,6 @@ plot(w_n)  # w_n 데이터 셋 산점도로 표현
 
 # 상관분석을 보다 잘 표현할 수 있는 패키지 설치
 install.packages("corrplot")   # 패키지 설치
-
 library(corrplot)  # corrplot 패키지 불러오기
 
 # 그냥 한번 실행해보기(주의할 점은 데이터셋이 아닌 상관분석결과를 넣어야함)
@@ -48,8 +47,6 @@ plot(w_n$egg_weight, w_n$weight)  # 산점도 그리기
 lines(w_n$egg_weight, w_lm$fitted.values, col = "blue")  # 회귀직선 추가
 text(x = 66, y = 132, label = 'Y = 2.3371X - 14.5475')  # 회귀직선 라벨로 표시
 
-str(w_lm)
-
 names(w_lm)  # w_lm 변수에 어떤 항목들이 있는지 확인
 
 w_lm
@@ -71,9 +68,6 @@ w_mlm2 <- lm(weight ~ egg_weight + food, data = w_n)
 
 summary(w_mlm2)
 
-hist(w_mlm2$residuals, col = "skyblue", xlab = "residuals",
-     main = "병아리 무게 잔차 히스토그램(다중 회귀)")
-
 # 다중공선성(Multicollinearity) 확인을 위한 패키지 설치
 install.packages("car")
 library(car)
@@ -82,10 +76,14 @@ library(car)
 # 10이상이면 문제있다고 보고, 30보다 크면 심각
 vif(w_mlm2)
 
-# 후진소거법을 적용해 자동으로 실행
+# 잔차 히스토그램
+hist(w_mlm2$residuals, col = "skyblue", xlab = "residuals",
+     main = "병아리 무게 잔차 히스토그램(다중 회귀)")
+
+# (참고)후진소거법을 적용해 자동으로 실행
 step_mlm <- step(w_mlm, direction = "backward")
 
-# 회귀분석 결과 그래프로 확인
+# (참고)회귀분석 결과 그래프로 확인
 plot(w_mlm2)
 
 # 비선형 회귀분석용 두번째 데이터셋 불러오기
@@ -103,6 +101,7 @@ w2_lm <- lm(weight ~ day, data = w2)
 
 summary(w2_lm)
 
+# 산점도 위에 회귀직선 표시
 lines(w2$day, w2_lm$fitted.values, col = "blue")
 
 # 성장기간에 따른 병아리 무게 변화 비선형 회귀분석 실시
@@ -112,7 +111,12 @@ summary(w2_lm2)
 
 plot(w2)
 
+# 산점도 위에 회귀곡선 표시
 lines(w2$day, w2_lm2$fitted.values, col = "blue")
 
+# w2_lm2 회귀분석 결과에서 계수 확인
+w2_lm2$coefficients
+
+# 산점도 위에 수식 표시
 text(25, 3000, "weight = -0.025*day^3 + 2.624*day^2 - 15.298*day + 117.014")
 

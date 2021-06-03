@@ -238,7 +238,7 @@ library(caret)
 confusionMatrix(pred, act)
 
 
-# Dropout용 모델(model) 생성
+# (참고)Dropout용 모델(model) 생성
 model_d <- keras_model_sequential()
 
 # 모델에 계층 추가(Dropout 40% 적용)
@@ -251,5 +251,4 @@ model_d %>%
 
 # 모델 살펴보기
 summary(model_d)
-
 

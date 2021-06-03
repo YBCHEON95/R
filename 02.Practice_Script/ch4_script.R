@@ -5,19 +5,16 @@
 # ch4-1.csv 파일의 데이터 불러오기
 hat <- read.csv("ch4-1.csv", header = TRUE)
 
-str(hat)
+hat
 
-class(hat$chick)
-
-# 데이터가 정상적으로 불러와졌는지 확인하기, head는 가장 위 6행만 보여줌
+# 데이터 확인하기, head는 가장 위 6행만 보여줌
 head(hat)
 
+# 데이터 확인하기, tail은 가장 아래 6행만 보여줌
 tail(hat)
 
 # head는 아래와 같이 df옆에 숫자를 입력하면 해당 숫자만큼 행이 출력됨
 head(hat,3)
-
-hat
 
 # 합계 구하기
 sum(hat$chick)
@@ -42,11 +39,8 @@ hat_asc <- hat[order(hat$chick),] # chick 열을 기준으로 오름차순 정�
 
 hat_asc
 
-summary(hat$chick)
-
 # 간단한 그래프를 그려서 보자
 # 막대그래프
-
 barplot(hat$chick)
 
 # 다양한 옵션을 통해 막대그래프 정보를 추가하자
@@ -75,8 +69,6 @@ bar_x <- barplot(hat$chick)  # bar_x 변수에 barplot의 x좌표 집어넣음
 # 위에 bar_chart라는 변수를 만들어주는 이유는 x좌표를 알아내기 위함임
 bar_x
 
-text(x = 0.7, y = 32, labels = "30")
-
 # 다시 예쁜 그래프 기리기
 barplot(hat$chick, names.arg = hat$hatchery,
         col = col7, 
@@ -87,7 +79,7 @@ barplot(hat$chick, names.arg = hat$hatchery,
 # 막대그래프에 text 추가, 라벨에 2가지 이상 넣을때는 paste를 써야함, pos는 라벨의 위치
 text(x = bar_x, y = hat$chick, labels = hat$chick, pos = 3)
 
-# 막대그래프에 점선 추가
+# 막대그래프에 30기준으로 빨간색 점선 추가
 abline(h = 30, col = "red", lty = 2, lwd = 1)
 
 # 파이차트 그리기
@@ -117,19 +109,10 @@ str(b)
 # 대략적인 데이터의 분포 확인
 summary(b)
 
-# B 부화장 병아리 무게 평균 및 표준편차
-mean(b$weight)
+# B 부화장 병아리 무게 표준편차
 sd(b$weight)
-b_sd <- sd(b$weight)
 
-38.4 - (0.6745 *b_sd)
-38.4 + (0.6745 *b_sd)
-
-38.4 - 3*b_sd
-38.4 + 3*b_sd
-
-# 정규분포 그래프 설명용 그리기
-
+# (참고)정규분포 그래프 설명용 그리기
 x <- seq(-5, 5, length = 500)
 y1 <- dnorm(x, mean = 0, sd = 1)
 y2 <- dnorm(x, mean = 0, sd = 2)
@@ -157,15 +140,12 @@ test <- read.csv("ch4-3.csv", header = TRUE)
 test
 
 # 상자그림을 2개 그려서 비교해봄
-
 boxplot(weight ~ hatchery, data = test, 
         horizontal = TRUE, col = c("light green", "sky blue"),
         ylab= "부화장", xlab = "몸무게 분포",
         main = "부화장 A vs. B 몸무게 분포 비교")
 
 # 두 집단이 우선 정규분포를 따르고 있는지 샤피로 월크 검정 실시
-shapiro.test(test$weight)
-
 a <- subset(test$weight, test$hatchery == 'A')
 b <- subset(test$weight, test$hatchery == 'B')
 shapiro.test(a)
@@ -178,7 +158,8 @@ t.test(data = test, weight ~ hatchery)
 
 # 결과해석 : p값이 0.01094로 0.05보다 작으므로 대립가설을 채택함, 즉 두 집단의 평균은 다름
 
-# 엑셀파일 불러오기 참고(test.xlsx 파일이 있어야함)
+# (참고)엑셀파일 불러오기 참고(test.xlsx 파일이 있어야함)
+install.packages("openxlsx")
 library(openxlsx)
 
 ?read.xlsx

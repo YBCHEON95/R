@@ -133,7 +133,7 @@ dtm_txt <- DocumentTermMatrix(co_txt)
 # DocumentTermMatrix 형태 살펴보기
 inspect(dtm_txt)
 
-# 특정 문서와 특정 단어순서들을 지정해서 검색할 수도 있음
+# (참고)특정 문서와 특정 단어순서들을 지정해서 검색할 수도 있음
 inspect(dtm_txt[2,1:9])
 
 # dtm_txt를 위에서 만든 감성 기준 사전 sentdic을 이용해 분석
